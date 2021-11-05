@@ -6,7 +6,7 @@ import AssetsOrganisms from "@/components/organisms/AssetsOrganisms";
 
 const HomePage = () => {
   return (
-    <Stack spacing={6} p={6}>
+    <Stack spacing={6} p={6} maxWidth="600px" mx="auto">
       <BannerOrganisms></BannerOrganisms>
       <HomeSearchBox></HomeSearchBox>
       <AssetsOrganisms></AssetsOrganisms>
