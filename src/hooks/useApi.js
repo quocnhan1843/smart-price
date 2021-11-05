@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { camelizeKeys } from "humps";
-// import get from "lodash/get";
+import get from "lodash/get";
+import { useToast } from "@chakra-ui/react";
 
 import Config from "@/app.config";
 
@@ -17,16 +18,17 @@ const axiosInstance = axios.create({
   baseURL: Config.apiUrl,
 });
 
-// const makeRequestError = (error) => {
-//   const status = get(error, "response.status");
-//   const statusText = get(error, "response.statusText");
+const parseRequestError = (error) => {
+  const status = get(error, "response.status") || "";
+  const statusText = get(error, "response.statusText") || "";
 
-//   return { status, statusText, message: "" };
-// };
+  return { status, statusText, message: "Something went wrong!" };
+};
 
 const useApi = (fn) => {
   const [result, setResult] = useState(RESULT_PATTERN);
   const [request, setRequestOptions] = useState(null);
+  const toast = useToast();
 
   useEffect(() => {
     if (!request) {
@@ -68,6 +70,16 @@ const useApi = (fn) => {
         });
       })
       .catch((error) => {
+        const { status, message } = parseRequestError(error);
+
+        toast({
+          title: "ERROR",
+          description: `${status} ${message}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+
         setResult({
           complete: true,
           data: null,
@@ -75,6 +87,7 @@ const useApi = (fn) => {
           loading: false,
         });
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request]);
 
   return [result, (...args) => setRequestOptions(fn(...args))];
