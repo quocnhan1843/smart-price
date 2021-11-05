@@ -2,6 +2,18 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Demo
+
+### UI
+
+- https://smart-price-tracking.herokuapp.com
+
+### Proxy server
+
+- https://coingecko-proxy.herokuapp.com
+
+This BE api proxy to https://www.coingecko.com/api/v3. Because https://www.coingecko.com/api/v3 does not allow us to read resources. We will get CORS error.
+
 ## Available Scripts
 
 In the project directory, you can run:
